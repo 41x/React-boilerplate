@@ -2,11 +2,13 @@ const path = require('path');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 
-const NODE_ENV = (process.env.NODE_ENV || 'development').trim();
-console.log(NODE_ENV);
+const NODE_ENV = process.env.NODE_ENV || 'development';
+console.log(`NODE_ENV = ${NODE_ENV}`);
 
 const config = {
-    mode: NODE_ENV
+    mode: NODE_ENV,
+    watch: NODE_ENV === 'development',
+    devtool: 'source-map',
 };
 
 const browserConfig = {
@@ -16,18 +18,18 @@ const browserConfig = {
     output: {
         path: path.resolve(__dirname, 'public'),
         filename: 'bundle.js',
-        publicPath: '/'
+        publicPath: '/',
     },
     module: {
         rules: [
-            { test: /\.js$/, include: /src/, loader: "babel-loader" }
-        ]
+            { test: /\.js$/, include: /src/, loader: 'babel-loader' },
+        ],
     },
     plugins: [
         new webpack.DefinePlugin({
-            __isBrowser__: "true",
-            NODE_ENV
-        })
+            __isBrowser__: 'true',
+            NODE_ENV: JSON.stringify(NODE_ENV),
+        }),
     ],
 
 };
@@ -39,21 +41,21 @@ const serverConfig = {
     target: 'node',
     externals: [nodeExternals()],
     output: {
-        path: path.resolve(__dirname, 'public'),
+        path: path.resolve(__dirname),
         filename: 'server.js',
-        publicPath: '/'
+        publicPath: '/',
     },
     module: {
         rules: [
-            { test: /\.(js)$/, use: 'babel-loader' }
-        ]
+            { test: /\.(js)$/, use: 'babel-loader' },
+        ],
     },
     plugins: [
         new webpack.DefinePlugin({
-            __isBrowser__: "false",
-            NODE_ENV
-        })
-    ]
+            __isBrowser__: 'false',
+            NODE_ENV: JSON.stringify(NODE_ENV),
+        }),
+    ],
 };
 
 module.exports = [browserConfig, serverConfig];
