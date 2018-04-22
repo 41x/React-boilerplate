@@ -23,6 +23,7 @@
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.19",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.11.0",
@@ -35,7 +36,8 @@
   },
   "babel": {
     "presets": [
-      "env", "react"
+      "env",
+      "react"
     ]
   },
   "dependencies": {
@@ -51,16 +53,34 @@
       "airbnb"
     ],
     "rules": {
-      "react/jsx-filename-extension": [
-        1, {
-          "extensions": [
-            ".js", ".jsx"
-          ]
+      "import/no-extraneous-dependencies": "off",
+      "css-modules/no-unused-class": "off",
+      "react/jsx-filename-extension": "off",
+      "comma-dangle": "off",
+      "indent": [
+        "error",
+        4,
+        {
+          "SwitchCase": 1
         }
       ],
-      "indent": [
-        2, 4
-      ]
+      "react/jsx-indent": [
+        "error",
+        4
+      ],
+      "react/jsx-indent-props": "off",
+      "jsx-a11y/no-static-element-interactions": "off",
+      "css-modules/no-undef-class": "off",
+      "arrow-body-style": "off",
+      "import/prefer-default-export": "off",
+      "space-before-function-paren": [
+        "error",
+        "always"
+      ],
+      "react/prefer-stateless-function": "off",
+      "react/sort-comp": "off",
+      "react/require-default-props": "off",
+      "object-curly-newline": "off"
     },
     "env": {
       "browser": true,
