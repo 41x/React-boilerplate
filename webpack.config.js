@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
+const NodemonPlugin = require('nodemon-webpack-plugin');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 console.log(`NODE_ENV = ${NODE_ENV}`);
@@ -55,6 +56,7 @@ const serverConfig = {
             __isBrowser__: 'false',
             NODE_ENV: JSON.stringify(NODE_ENV),
         }),
+        new NodemonPlugin(),
     ],
 };
 
