@@ -1,2 +1,2 @@
 const a = 1;
-alert(NODE_ENV);
+console.log(NODE_ENV);

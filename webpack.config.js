@@ -66,7 +66,11 @@ const serverConfig = {
             NODE_ENV: JSON.stringify(NODE_ENV),
         }),
         new CleanWebpackPlugin(['server.js'], cleanOptions),
-        new NodemonPlugin(),
+
+        // starts nodemon only in development mode
+        new NodemonPlugin({
+            nodeArgs: ['--inspect']
+        }),
     ],
 };
 
