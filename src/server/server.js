@@ -1,8 +1,7 @@
 import React from 'react';
 import express from 'express';
+import path from 'path';
 import cors from 'cors';
-import { renderToString } from 'react-dom/server';
-import App from '../components/App';
 
 const app = express();
 
@@ -14,20 +13,7 @@ app.use(cors());
 app.use(express.static('public'));
 
 app.get('*', (req, res, next) => {
-    const markup = renderToString(<App />);
-    const htmlString = (`
-        <!DOCTYPE html>
-        <html>
-            <head>
-                <title>SSR with RR</title>
-                <script src="/bundle.js" defer></script>
-            </head>
-            <body>
-                <div id="app">${markup}</div>
-            </body>
-        </html>
-    `);
-    res.send(htmlString);
+    res.sendFile(`${path.resolve(__dirname)}/public/index.html`);
 });
 
 app.listen(3000, () => {

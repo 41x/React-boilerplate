@@ -20,7 +20,9 @@
   "homepage": "https://github.com/41x/project#readme",
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.3",
     "babel-loader": "^7.1.4",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",
@@ -38,6 +40,9 @@
     "presets": [
       "env",
       "react"
+    ],
+    "plugins": [
+      "transform-class-properties"
     ]
   },
   "dependencies": {
@@ -49,10 +54,12 @@
     "serialize-javascript": "^1.5.0"
   },
   "eslintConfig": {
+    "parser": "babel-eslint",
     "extends": [
       "airbnb"
     ],
     "rules": {
+      "strict": 0,
       "import/no-extraneous-dependencies": "off",
       "css-modules/no-unused-class": "off",
       "react/jsx-filename-extension": "off",

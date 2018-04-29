@@ -49,6 +49,11 @@ const serverConfig = {
     context: path.resolve(__dirname, 'src', 'server'),
     entry: './server.js',
     target: 'node',
+    node: {
+        // for webpack not to mess up __dirname
+        __dirname: false,
+        __filename: false,
+    },
     externals: [nodeExternals()],
     output: {
         path: path.resolve(__dirname),
