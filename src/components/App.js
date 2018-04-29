@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import SearchPage from './SearchPage';
-import ResultPage from './ResultPage';
-import DetailsPage from './DetailsPage';
+import SearchPage from '../containers/Search.container';
+import ResultPage from '../containers/Results.container';
+import DetailsPage from '../containers/Details.container';
 import FourOFourPage from './404Page';
+
 
 class App extends Component {
     render () {
