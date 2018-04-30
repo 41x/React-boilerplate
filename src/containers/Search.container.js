@@ -1,8 +1,17 @@
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import SearchPage from '../components/SearchPage';
+import SearchPage from '../components/SearchPage/SearchPage';
+import { getQuestions } from '../actions/common.actions';
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+    questionsLoading: state.results.questionsLoading,
+    questionsLoadingError: state.results.questionsLoadingError,
+});
 
-const mapDispatchToProps = dispatch => ({});
+function mapDispatchToProps (dispatch) {
+    return bindActionCreators({
+        getQuestions
+    }, dispatch);
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);

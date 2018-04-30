@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
 import ResultPage from '../components/ResultPage';
 
-const mapStateToProps = state => ({ ...state.results });
+const mapStateToProps = state => ({
+    questions: state.results.questions
+});
 
 const mapDispatchToProps = dispatch => ({});
 

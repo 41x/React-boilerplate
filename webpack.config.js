@@ -32,6 +32,33 @@ const browserConfig = {
     module: {
         rules: [
             { test: /\.js$/, include: /src/, loader: 'babel-loader' },
+            {
+                test: /^((?!bootstrap\.min).)*\.css$/,
+                use: [{
+                    loader: 'style-loader', // inject CSS to page
+                }, {
+                    loader: 'css-loader',
+                    options: {
+                        modules: true,
+                        importLoaders: 1,
+                        localIdentName: '[path][name]__[local]--[hash:base64:5]'
+                    }
+                }, {
+                    loader: 'postcss-loader', // Run post css actions
+                    options: {
+                        sourceMap: true,
+                        plugins () { // post css plugins, can be exported to postcss.config.js
+                            return [
+                                require('postcss-cssnext')(),
+                                require('postcss-import')(),
+                            ];
+                        }
+                    }
+                }]
+            }, {
+                test: /bootstrap\.min\.css$/,
+                use: ['style-loader', 'css-loader']
+            },
         ],
     },
     plugins: [
