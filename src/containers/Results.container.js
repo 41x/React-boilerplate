@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import ResultPage from '../components/ResultPage';
+import ResultPage from '../components/ResultPage/ResultPage';
 
 const mapStateToProps = state => ({
     questions: state.results.questions

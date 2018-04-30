@@ -42,24 +42,31 @@ class SearchPage extends Component {
         const { questionsLoading, questionsLoadingError } = this.props;
         return (
             <div className="container">
-                <div className={cx(s.content, 'row justify-content-md-center')}>
+                <div className={cx(s.content, 'row justify-content-center')}>
                     <form
                         onSubmit={this.onSubmit}
                         className={cx(s.form, 'jumbotron col-6')}
                     >
-                        <h5 className="col-12">Поиск по StackOverflow</h5>
+                        <h6 className="col-12">Поиск по StackOverflow</h6>
 
                         <input
-                            className={cx(s.redInput, 'col-8')}
+                            className={cx('col-12', 'form-control')}
                             type="text"
                             value={this.state.input}
                             onChange={this.inputChange}
                             disabled={questionsLoading}
                             placeholder="Введите запрос..."
+                            tabIndex={1}
                         />
-                        <button className="col-4">Поиск</button>
-
-                        <div>{questionsLoadingError}</div>
+                        <div className={s.buttonContainer}>
+                            <button
+                                tabIndex={2}
+                                className="btn btn-primary col-4"
+                            >Поиск
+                            </button>
+                        </div>
+                        {!!questionsLoadingError &&
+                        <div className={cx(s.error, 'alert alert-danger')}>{questionsLoadingError}</div>}
                     </form>
                 </div>
             </div>

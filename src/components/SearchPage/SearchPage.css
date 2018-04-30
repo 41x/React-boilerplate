@@ -1,11 +1,23 @@
-.redInput {
-    color: red;
-}
-
-.content{
+.content {
     padding-top: 100px;
 }
 
-form{
+.form {
+    h6 {
+        padding: 0;
+        margin-bottom: 30px;
+
+    }
+
+    input{
+        margin-bottom: 60px;
+    }
 }
 
+.buttonContainer{
+    text-align: right;
+}
+
+.error{
+    margin-top: 30px;
+}

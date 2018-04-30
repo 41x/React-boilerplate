@@ -23,7 +23,7 @@ const config = {
 const browserConfig = {
     ...config,
     context: path.resolve(__dirname, 'src', 'client'),
-    entry: './client.js',
+    entry: ['./client.js'],
     output: {
         path: path.resolve(__dirname, 'public'),
         filename: 'bundle.js',
@@ -50,7 +50,9 @@ const browserConfig = {
                         plugins () { // post css plugins, can be exported to postcss.config.js
                             return [
                                 require('postcss-cssnext')(),
-                                require('postcss-import')(),
+                                require('postcss-nesting')(),
+                                require('postcss-nested')(),
+
                             ];
                         }
                     }

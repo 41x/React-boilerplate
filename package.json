@@ -36,6 +36,8 @@
     "nodemon-webpack-plugin": "^4.0.3",
     "postcss-cssnext": "^3.1.0",
     "postcss-loader": "^2.1.4",
+    "postcss-nested": "^3.0.0",
+    "postcss-nesting": "^5.0.0",
     "redux-devtools": "^3.4.1",
     "style-loader": "^0.21.0",
     "webpack": "^4.5.0",
