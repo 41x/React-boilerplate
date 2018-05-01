@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import SearchPage from '../containers/Search.container';
-import ResultPage from '../containers/Results.container';
-import DetailsPage from '../containers/Details.container';
+import QuestionsPage from '../containers/Questions.container';
+import QuestionDetails from '../containers/QuestionDetails.container';
 import FourOFourPage from './404Page';
 
 
@@ -12,8 +12,8 @@ class App extends Component {
             <Switch>
                 <Redirect from="/" exact to="/search" />
                 <Route exact path="/search" component={SearchPage} />
-                <Route exact path="/results" component={ResultPage} />
-                <Route exact path="/details" component={DetailsPage} />
+                <Route exact path="/questions" component={QuestionsPage} />
+                <Route exact path="/questions:id" component={QuestionDetails} />
                 <Route component={FourOFourPage} />
             </Switch>
         );

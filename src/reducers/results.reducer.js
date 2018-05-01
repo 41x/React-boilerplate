@@ -26,6 +26,13 @@ const results = (state = {}, action) => {
             };
         }
 
+        case consts.RESET_QUESTIONS: {
+            return {
+                ...state,
+                questions: undefined,
+            };
+        }
+
         default:
             return state;
     }

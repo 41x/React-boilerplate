@@ -5,20 +5,6 @@ import s from './SearchPage.css';
 
 
 class SearchPage extends Component {
-    static propTypes = {
-        getQuestions: PropTypes.func,
-        questionsLoading: PropTypes.bool,
-        questionsLoadingError: PropTypes.string,
-    };
-
-    static defaultProps = {
-        getQuestions: () => {
-        },
-        questionsLoading: undefined,
-        questionsLoadingError: undefined,
-
-    };
-
     constructor (props) {
         super(props);
         this.state = {
@@ -26,35 +12,32 @@ class SearchPage extends Component {
         };
     }
 
-    onSubmit = (e) => {
-        e.preventDefault();
-        const { input } = this.state;
-        if (input) {
-            this.props.getQuestions(input);
-        }
+    inputChange = (e) => {
+        const input = e.target.value;
+        this.setState({ input, url: `/questions?query=${encodeURI(input)}` });
     };
 
-    inputChange = (e) => {
-        this.setState({ input: e.target.value });
+    onSubmit = (e) => {
+        e.preventDefault();
+        this.props.history.push(this.state.url);
     };
 
     render () {
-        const { questionsLoading, questionsLoadingError } = this.props;
+        const { input } = this.state;
         return (
             <div className="container">
                 <div className={cx(s.content, 'row justify-content-center')}>
                     <form
                         onSubmit={this.onSubmit}
-                        className={cx(s.form, 'jumbotron col-6')}
+                        className={cx(s.form, 'form-group jumbotron col-6')}
                     >
                         <h6 className="col-12">Поиск по StackOverflow</h6>
 
                         <input
                             className={cx('col-12', 'form-control')}
                             type="text"
-                            value={this.state.input}
+                            value={input}
                             onChange={this.inputChange}
-                            disabled={questionsLoading}
                             placeholder="Введите запрос..."
                             tabIndex={1}
                         />
@@ -62,11 +45,10 @@ class SearchPage extends Component {
                             <button
                                 tabIndex={2}
                                 className="btn btn-primary col-4"
+                                disabled={!input}
                             >Поиск
                             </button>
                         </div>
-                        {!!questionsLoadingError &&
-                        <div className={cx(s.error, 'alert alert-danger')}>{questionsLoadingError}</div>}
                     </form>
                 </div>
             </div>

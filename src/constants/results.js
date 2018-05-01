@@ -1,4 +1,5 @@
 export const GET_QUESTIONS_START = 'results/GET_QUESTIONS_START';
 export const GET_QUESTIONS_FAILURE = 'results/GET_QUESTIONS_FAILURE';
 export const GET_QUESTIONS_SUCCESS = 'results/GET_QUESTIONS_SUCCESS';
+export const RESET_QUESTIONS = 'results/RESET_QUESTIONS';
 

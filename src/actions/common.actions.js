@@ -1,5 +1,4 @@
 import axios from 'axios';
-import history from '../client/history';
 import { SEARCH_URL } from '../constants/requests';
 import { GET_QUESTIONS_FAILURE, GET_QUESTIONS_START, GET_QUESTIONS_SUCCESS } from '../constants/results';
 
@@ -7,6 +6,8 @@ import { GET_QUESTIONS_FAILURE, GET_QUESTIONS_START, GET_QUESTIONS_SUCCESS } fro
 const defaultErrors = {
     getQuestionsError: 'Произошла ошибка! Не удалось получить вопросы.',
 };
+
+export const resetQuestions = () => ({ type: GET_QUESTIONS_START });
 
 const getQuestionsStart = () => ({ type: GET_QUESTIONS_START });
 const getQuestionsFailure = error => ({ type: GET_QUESTIONS_FAILURE, payload: { error } });
@@ -23,7 +24,6 @@ export function getQuestions (query) {
             },
         }).then(({ data: { items } = {} }) => {
             dispatch(getQuestionsSuccuess(items));
-            history.push('/results');
         }).catch(() => {
             dispatch(getQuestionsFailure(defaultErrors.getQuestionsError));
         });
