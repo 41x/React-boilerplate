@@ -12,7 +12,7 @@ class Question extends Component {
         author: PropTypes.string,
         img: PropTypes.string,
         title: PropTypes.string,
-        userId: PropTypes.string,
+        userId: PropTypes.number,
         questionId: PropTypes.number,
         answers: PropTypes.number,
         tags: PropTypes.arrayOf(PropTypes.string),

@@ -1,27 +1,31 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import qs from 'query-string';
 import cx from 'classnames';
 import { noop } from '../../utils';
 import Preloader from '../Preloader/Preloader';
 import QuestionsTable from '../QuestionsTable/QuestionsTable';
+import s from './QuestionsPage.css';
 
 
 class ResultPage extends Component {
     static propTypes = {
         questions: PropTypes.arrayOf(PropTypes.shape({ title: PropTypes.string })),
+        popUpQuestions: PropTypes.arrayOf(PropTypes.shape({ title: PropTypes.string })),
         location: PropTypes.shape({ search: PropTypes.string }),
         questionsLoadingError: PropTypes.string,
         questionsLoading: PropTypes.bool,
         resetL: PropTypes.func,
         getQuestionsByUserId: PropTypes.func,
         getQuestions: PropTypes.func,
+        resetPL: PropTypes.func,
         getQuestionsByTag: PropTypes.func,
 
     };
 
     static defaultProps = {
         questions: [],
+        popUpQuestions: [],
         resetL: noop,
         getQuestionsByTag: noop,
         getQuestionsByUserId: noop,
@@ -39,6 +43,7 @@ class ResultPage extends Component {
 
     componentWillUnmount () {
         this.props.resetL();
+        this.props.resetPL();
     }
 
     onTagClick = (e) => {
@@ -58,7 +63,9 @@ class ResultPage extends Component {
     };
 
     renderContent = () => {
-        const { questionsLoadingError, questionsLoading, questions } = this.props;
+        const { questionsLoadingError, questionsLoading, questions, popUpQuestions } = this.props;
+
+        const blockHeight = window.innerHeight * 0.4;
         let view;
         if (questionsLoading) {
             view = <Preloader />;
@@ -66,11 +73,48 @@ class ResultPage extends Component {
             view = <div className={cx('alert alert-danger')}>{questionsLoadingError}</div>;
         } else {
             view = (
-                <QuestionsTable
-                    onTagClick={this.onTagClick}
-                    onAuthorClick={this.onAuthorClick}
-                    questions={questions}
-                />
+                <Fragment>
+                    <h6>Результаты поиска</h6>
+                    <div
+                        className={cx(s.questionsContainer)}
+                    >
+                        <QuestionsTable
+                            onTagClick={this.onTagClick}
+                            onAuthorClick={this.onAuthorClick}
+                            questions={questions}
+                        />
+                    </div>
+
+                    {!!popUpQuestions.length &&
+                    <div className={cx(s.popUpContainer, 'container')}>
+                        <div className={cx(s.card, 'card')}>
+                            <div className={cx(s.header, 'card-header')}>
+                                question
+
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 18 18"
+                                    onClick={this.props.resetPL}
+                                >
+                                    <path
+                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
+                                </svg>
+                            </div>
+                            <div
+                                style={{ height: blockHeight }}
+                                className={cx(s.cardBody, 'card-body')}
+                            >
+                                <QuestionsTable
+                                    onTagClick={this.onTagClick}
+                                    onAuthorClick={this.onAuthorClick}
+                                    questions={popUpQuestions}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </Fragment>
             );
         }
 
@@ -80,8 +124,7 @@ class ResultPage extends Component {
     render () {
         return (
             <div className={cx('container')}>
-                <h6>Результаты поиска</h6>
-                <div className="row">
+                <div className={cx(s.root, 'row')}>
                     {this.renderContent()}
                 </div>
             </div>

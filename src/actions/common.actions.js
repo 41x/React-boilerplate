@@ -9,7 +9,7 @@ import {
     GET_QUESTION_BY_ID_START, GET_QUESTION_BY_ID_SUCCESS, GET_QUESTIONS_BY_TAG_FAILURE,
     GET_QUESTIONS_BY_TAG_START, GET_QUESTIONS_BY_TAG_SUCCESS, GET_QUESTIONS_BY_USER_ID_FAILURE,
     GET_QUESTIONS_BY_USER_ID_START, GET_QUESTIONS_BY_USER_ID_SUCCESS, GET_QUESTIONS_FAILURE,
-    GET_QUESTIONS_START, GET_QUESTIONS_SUCCESS, RESET_E, RESET_L
+    GET_QUESTIONS_START, GET_QUESTIONS_SUCCESS, RESET_E, RESET_L, RESET_PL
 } from '../constants/results';
 
 
@@ -22,6 +22,7 @@ const defaultErrors = {
 };
 
 export const resetL = () => ({ type: RESET_L });
+export const resetPL = () => ({ type: RESET_PL });
 export const resetE = () => ({ type: RESET_E });
 
 const getQuestionsStart = () => ({ type: GET_QUESTIONS_START });
@@ -145,7 +146,7 @@ const getQuestionsByUserIdSuccess = data => ({
 });
 
 /**
- * Получить вопросы user id.
+ * Получить вопросы по user id.
  * @param {string} userId - Идентификатор пользователя.
  */
 export function getQuestionsByUserId (userId) {
@@ -156,7 +157,12 @@ export function getQuestionsByUserId (userId) {
             url: questionsByUserIdUrl(userId),
             headers: { 'Content-Type': 'application/json' },
         }).then(({ data: { items } = {} }) => {
-            dispatch(getQuestionsByUserIdSuccess(items));
+            const questions = items || [];
+            // sorting by view count
+            const sorted = questions.sort((a, b) => {
+                return (b.view_count || 0) - (a.view_count || 0);
+            });
+            dispatch(getQuestionsByUserIdSuccess(sorted));
         }).catch(() => {
             dispatch(getQuestionsByUserIdFailure(defaultErrors.getQuestionsByUserIdError));
         });

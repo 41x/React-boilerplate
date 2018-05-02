@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import Question from '../Question/QuestionItem';
 import s from './QuestionsTable.css';
 import { noop } from '../../utils';
@@ -42,7 +43,7 @@ class QuestionsTable extends Component {
         });
 
         return (
-            <table className="table table-striped">
+            <table className={cx(s.root, 'table table-striped')}>
                 <thead>
                 <tr>
                     <th>Автор</th>

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import QuestionDetailsPage from '../components/QuestionPage/QuestionDetailsPage';
+import QuestionDetailsPage from '../components/QuestionDetailsPage/QuestionDetailsPage';
 import { getAnswersByQuestionId, getQuestionById, resetE } from '../actions/common.actions';
 
 

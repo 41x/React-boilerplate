@@ -32,9 +32,8 @@ class QuestionDetailsPage extends Component {
         getAnswersByQuestionId: noop,
         getQuestionById: noop,
         resetE: noop,
-        match: undefined,
-        question: undefined,
-        answers: undefined,
+        question: {},
+        answers: []
     };
 
     componentDidMount () {
@@ -61,7 +60,6 @@ class QuestionDetailsPage extends Component {
 
         const loading = questionLoading || answersLoading;
         const error = questionLoadingError || answersLoadingError;
-        if (loading === undefined) return null;
 
         if (loading) return <Preloader />;
 
