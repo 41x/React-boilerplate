@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import qs from 'query-string';
 import cx from 'classnames';
 import { noop } from '../../utils';
-import Question from '../Question/QuestionItem';
-import s from './QuestionsPage.css';
 import Preloader from '../Preloader/Preloader';
+import QuestionsTable from '../QuestionsTable/QuestionsTable';
 
 
 class ResultPage extends Component {
@@ -15,16 +14,17 @@ class ResultPage extends Component {
         questionsLoadingError: PropTypes.string,
         questionsLoading: PropTypes.bool,
         resetL: PropTypes.func,
+        getQuestionsByUserId: PropTypes.func,
         getQuestions: PropTypes.func,
+        getQuestionsByTag: PropTypes.func,
 
     };
 
     static defaultProps = {
         questions: [],
-        questionsLoadingError: undefined,
-        questionsLoading: undefined,
         resetL: noop,
-        location: undefined,
+        getQuestionsByTag: noop,
+        getQuestionsByUserId: noop,
     };
 
     componentDidMount () {
@@ -41,50 +41,37 @@ class ResultPage extends Component {
         this.props.resetL();
     }
 
-    renderTable = () => {
-        const { questions } = this.props;
-        const trs = questions.map((q) => {
-            const {
-                owner: { display_name: author, profile_image: imgUrl } = {},
-                title, answer_count: answers, tags
-            } = q;
-            return (
-                <Question
-                    key={q.question_id}
-                    questionId={q.question_id}
-                    author={author}
-                    title={title}
-                    answers={answers}
-                    tags={tags}
-                    img={imgUrl}
-                />
-            );
-        });
+    onTagClick = (e) => {
+        const { target: { dataset: { tag } = {} } = {} } = e;
+        if (tag && this.lastTag !== tag) {
+            this.lastTag = tag;
+            this.props.getQuestionsByTag(tag);
+        }
+    };
 
-        return (
-            <table className="table table-striped">
-                <thead>
-                <tr>
-                    <th>Автор</th>
-                    <th>Тема</th>
-                    <th className={s.answers}>Кол-во ответов</th>
-                    <th>Теги</th>
-                </tr>
-                </thead>
-                <tbody>{trs}</tbody>
-            </table>
-        );
+    onAuthorClick = (e) => {
+        const { currentTarget: { dataset: { author } = {} } = {} } = e;
+        if (author && this.author !== author) {
+            this.author = author;
+            this.props.getQuestionsByUserId(author);
+        }
     };
 
     renderContent = () => {
-        const { questionsLoadingError, questionsLoading } = this.props;
+        const { questionsLoadingError, questionsLoading, questions } = this.props;
         let view;
         if (questionsLoading) {
             view = <Preloader />;
         } else if (questionsLoadingError) {
             view = <div className={cx('alert alert-danger')}>{questionsLoadingError}</div>;
         } else {
-            view = this.renderTable();
+            view = (
+                <QuestionsTable
+                    onTagClick={this.onTagClick}
+                    onAuthorClick={this.onAuthorClick}
+                    questions={questions}
+                />
+            );
         }
 
         return view;

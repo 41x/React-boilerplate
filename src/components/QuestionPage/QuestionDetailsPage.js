@@ -15,6 +15,7 @@ class QuestionDetailsPage extends Component {
         answersLoading: PropTypes.bool,
         resetE: PropTypes.func,
         reputation: PropTypes.number,
+        answer_id: PropTypes.number,
         questionLoadingError: PropTypes.string,
         answersLoadingError: PropTypes.string,
         match: PropTypes.shape({}),
@@ -88,10 +89,10 @@ class QuestionDetailsPage extends Component {
                         </div>
                     </div>
                     {answers.map((a) => {
-                        const { is_accepted: accepted, score, body, owner } = a;
+                        const { is_accepted: accepted, score, body, owner, answer_id: answerId } = a;
 
                         return (
-                            <div className="card">
+                            <div key={answerId} className="card">
                                 <div className="card-header">
                                     answer&nbsp;
                                     score:&nbsp;

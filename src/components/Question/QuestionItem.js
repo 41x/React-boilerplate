@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import s from './QuestionItem.css';
 import Author from '../Author/Author';
+import { noop } from '../../utils';
 
 
 class Question extends Component {
@@ -11,21 +12,17 @@ class Question extends Component {
         author: PropTypes.string,
         img: PropTypes.string,
         title: PropTypes.string,
+        userId: PropTypes.string,
         questionId: PropTypes.number,
         answers: PropTypes.number,
         tags: PropTypes.arrayOf(PropTypes.string),
         onTagClick: PropTypes.func,
+        onAuthorClick: PropTypes.func,
     };
 
     static defaultProps = {
-        author: undefined,
-        title: undefined,
-        answers: undefined,
-        img: undefined,
-        tags: undefined,
-        questionId: undefined,
-        onTagClick: () => {
-        },
+        onTagClick: noop,
+        onAuthorClick: noop,
     };
 
     renderTags = () => {
@@ -42,10 +39,16 @@ class Question extends Component {
     };
 
     render () {
-        const { author, title, answers, img, questionId } = this.props;
+        const { author, title, answers, img, questionId, onAuthorClick, userId } = this.props;
         return (
-            <tr className={s.root}>
-                <td><Author author={author} imgUrl={img} /></td>
+            <tr>
+                <td
+                    onClick={onAuthorClick}
+                    data-author={userId}
+                    className={s.authorContainer}
+                >
+                    <Author author={author} imgUrl={img} />
+                </td>
                 <td><Link to={`/questions/${questionId}`}>{title}</Link></td>
                 <td><Link to={`/questions/${questionId}`}>{answers}</Link></td>
                 <td>{this.renderTags()}</td>

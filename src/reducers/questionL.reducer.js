@@ -1,6 +1,7 @@
 import * as consts from '../constants/results';
 
-const questionL = (state = {}, action) => {
+const INITIAL_STATE = {};
+const questionL = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case consts.GET_QUESTIONS_START: {
             return {
@@ -27,10 +28,7 @@ const questionL = (state = {}, action) => {
         }
 
         case consts.RESET_L: {
-            return {
-                ...state,
-                questions: undefined,
-            };
+            return INITIAL_STATE;
         }
 
         default:

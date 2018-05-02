@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import QuestionsPage from '../components/QuestionsPage/QuestionsPage';
-import { resetL, getQuestions } from '../actions/common.actions';
+import { resetL, getQuestions, getQuestionsByTag, getQuestionsByUserId } from '../actions/common.actions';
 
 
 const mapStateToProps = state => ({
@@ -11,7 +11,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ resetL, getQuestions }, dispatch);
+    return bindActionCreators({
+        resetL, getQuestions, getQuestionsByTag, getQuestionsByUserId
+    }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionsPage);
