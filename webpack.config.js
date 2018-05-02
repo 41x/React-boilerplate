@@ -23,7 +23,7 @@ const config = {
 const browserConfig = {
     ...config,
     context: path.resolve(__dirname, 'src', 'client'),
-    entry: ['./client.js'],
+    entry: ['babel-polyfill', './client.js'],
     output: {
         path: path.resolve(__dirname, 'public'),
         filename: 'bundle.js',
