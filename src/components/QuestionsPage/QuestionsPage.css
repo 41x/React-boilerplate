@@ -25,4 +25,8 @@
     .header {
         position: relative;
     }
+
+    h6 {
+        width: 100%;
+    }
 }

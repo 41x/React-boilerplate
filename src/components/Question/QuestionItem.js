@@ -44,7 +44,8 @@ class Question extends Component {
             <tr>
                 <td
                     onClick={onAuthorClick}
-                    data-author={userId}
+                    data-id={userId}
+                    data-name={author}
                     className={s.authorContainer}
                 >
                     <Author author={author} imgUrl={img} />

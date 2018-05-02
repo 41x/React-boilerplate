@@ -21,3 +21,6 @@ export const GET_QUESTIONS_BY_USER_ID_START = 'results/GET_QUESTIONS_BY_USER_ID_
 export const GET_QUESTIONS_BY_USER_ID_FAILURE = 'results/GET_QUESTIONS_BY_USER_ID_FAILURE';
 export const GET_QUESTIONS_BY_USER_ID_SUCCESS = 'results/GET_QUESTIONS_BY_USER_ID_SUCCESS';
 
+export const SET_TAG = 'results/SET_TAG';
+export const SET_AUTHOR = 'results/SET_AUTHOR';
+

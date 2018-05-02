@@ -14,6 +14,8 @@ class ResultPage extends Component {
         popUpQuestions: PropTypes.arrayOf(PropTypes.shape({ title: PropTypes.string })),
         location: PropTypes.shape({ search: PropTypes.string }),
         questionsLoadingError: PropTypes.string,
+        author: PropTypes.string,
+        tag: PropTypes.string,
         questionsLoading: PropTypes.bool,
         resetL: PropTypes.func,
         getQuestionsByUserId: PropTypes.func,
@@ -50,20 +52,33 @@ class ResultPage extends Component {
         const { target: { dataset: { tag } = {} } = {} } = e;
         if (tag && this.lastTag !== tag) {
             this.lastTag = tag;
+            this.lastAuthor = '';
             this.props.getQuestionsByTag(tag);
         }
     };
 
     onAuthorClick = (e) => {
-        const { currentTarget: { dataset: { author } = {} } = {} } = e;
-        if (author && this.author !== author) {
-            this.author = author;
-            this.props.getQuestionsByUserId(author);
+        const { currentTarget: { dataset: { id, name } = {} } = {} } = e;
+        if (id && this.lastAuthor !== id) {
+            this.lastAuthor = id;
+            this.lastTag = '';
+            this.props.getQuestionsByUserId(id, name);
         }
     };
 
     renderContent = () => {
-        const { questionsLoadingError, questionsLoading, questions, popUpQuestions } = this.props;
+        const {
+            location, questionsLoadingError, author, tag,
+            questionsLoading, questions, popUpQuestions
+        } = this.props;
+
+        const { query } = qs.parse(location.search);
+        let popUpHeader;
+        if (author) {
+            popUpHeader = `Список популярных вопросов пользователя: ${author}`;
+        } else if (tag) {
+            popUpHeader = `Список вопросов по тегу: '${tag}'`;
+        }
 
         const blockHeight = window.innerHeight * 0.4;
         let view;
@@ -74,7 +89,7 @@ class ResultPage extends Component {
         } else {
             view = (
                 <Fragment>
-                    <h6>Результаты поиска</h6>
+                    <h6>{`Результаты поиска${query ? ` по запросу: '${query}'` : ''}`}</h6>
                     <div
                         className={cx(s.questionsContainer)}
                     >
@@ -89,8 +104,7 @@ class ResultPage extends Component {
                     <div className={cx(s.popUpContainer, 'container')}>
                         <div className={cx(s.card, 'card')}>
                             <div className={cx(s.header, 'card-header')}>
-                                question
-
+                                {popUpHeader}
                                 <svg
                                     width="18"
                                     height="18"

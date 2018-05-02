@@ -9,7 +9,7 @@ import {
     GET_QUESTION_BY_ID_START, GET_QUESTION_BY_ID_SUCCESS, GET_QUESTIONS_BY_TAG_FAILURE,
     GET_QUESTIONS_BY_TAG_START, GET_QUESTIONS_BY_TAG_SUCCESS, GET_QUESTIONS_BY_USER_ID_FAILURE,
     GET_QUESTIONS_BY_USER_ID_START, GET_QUESTIONS_BY_USER_ID_SUCCESS, GET_QUESTIONS_FAILURE,
-    GET_QUESTIONS_START, GET_QUESTIONS_SUCCESS, RESET_E, RESET_L, RESET_PL
+    GET_QUESTIONS_START, GET_QUESTIONS_SUCCESS, RESET_E, RESET_L, RESET_PL, SET_AUTHOR, SET_TAG
 } from '../constants/results';
 
 
@@ -115,6 +115,10 @@ const getQuestionsByTagSuccess = data => ({
     type: GET_QUESTIONS_BY_TAG_SUCCESS,
     payload: { data }
 });
+const setTag = tag => ({
+    type: SET_TAG,
+    payload: { tag }
+});
 
 /**
  * Получить вопросы по тегу.
@@ -129,6 +133,7 @@ export function getQuestionsByTag (tag) {
             headers: { 'Content-Type': 'application/json' },
         }).then(({ data: { items } = {} }) => {
             dispatch(getQuestionsByTagSuccess(items));
+            dispatch(setTag(tag));
         }).catch(() => {
             dispatch(getQuestionsByTagFailure(defaultErrors.getQuestionsByTagError));
         });
@@ -144,12 +149,17 @@ const getQuestionsByUserIdSuccess = data => ({
     type: GET_QUESTIONS_BY_USER_ID_SUCCESS,
     payload: { data }
 });
+const setAuthor = author => ({
+    type: SET_AUTHOR,
+    payload: { author }
+});
 
 /**
  * Получить вопросы по user id.
  * @param {string} userId - Идентификатор пользователя.
+ * @param {string} author - Имя автора.
  */
-export function getQuestionsByUserId (userId) {
+export function getQuestionsByUserId (userId, author) {
     return (dispatch) => {
         dispatch(getQuestionsByUserIdStart());
         return axios({
@@ -163,6 +173,9 @@ export function getQuestionsByUserId (userId) {
                 return (b.view_count || 0) - (a.view_count || 0);
             });
             dispatch(getQuestionsByUserIdSuccess(sorted));
+            if (author) {
+                dispatch(setAuthor(author));
+            }
         }).catch(() => {
             dispatch(getQuestionsByUserIdFailure(defaultErrors.getQuestionsByUserIdError));
         });

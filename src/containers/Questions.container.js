@@ -9,6 +9,8 @@ import {
 const mapStateToProps = state => ({
     questions: state.questionL.questions,
     popUpQuestions: state.questionPL.questions,
+    author: state.questionPL.author,
+    tag: state.questionPL.tag,
     questionsLoading: state.questionL.questionsLoading,
     questionsLoadingError: state.questionL.questionsLoadingError,
 });

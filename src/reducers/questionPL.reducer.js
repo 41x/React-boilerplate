@@ -51,6 +51,22 @@ const questionPL = (state = INITIAL_STATE, action) => {
             };
         }
 
+        case consts.SET_TAG: {
+            return {
+                ...state,
+                tag: action.payload.tag,
+                author: undefined,
+            };
+        }
+
+        case consts.SET_AUTHOR: {
+            return {
+                ...state,
+                author: action.payload.author,
+                tag: undefined,
+            };
+        }
+
         case consts.RESET_PL: {
             return INITIAL_STATE;
         }
