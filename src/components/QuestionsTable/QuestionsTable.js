@@ -9,12 +9,14 @@ class QuestionsTable extends Component {
     static propTypes = {
         questions: PropTypes.arrayOf(PropTypes.shape({ title: PropTypes.string })),
         onTagClick: PropTypes.func,
+        onSort: PropTypes.func,
         onAuthorClick: PropTypes.func,
     };
 
     static defaultProps = {
         onTagClick: noop,
         onAuthorClick: noop,
+        onSort: noop,
     };
 
     render () {
@@ -46,9 +48,14 @@ class QuestionsTable extends Component {
             <table className={cx(s.root, 'table table-striped')}>
                 <thead>
                 <tr>
-                    <th>Автор</th>
-                    <th>Тема</th>
-                    <th className={s.answers}>Кол-во ответов</th>
+                    <th data-header="author" onClick={this.props.onSort}>Автор</th>
+                    <th data-header="title" onClick={this.props.onSort}>Тема</th>
+                    <th
+                        data-header="answers"
+                        onClick={this.props.onSort}
+                        className={s.answers}
+                    >Кол-во ответов
+                    </th>
                     <th>Теги</th>
                 </tr>
                 </thead>

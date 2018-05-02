@@ -1,3 +1,9 @@
-.answers{
-    width: 17%;
+.root {
+    .answers {
+        width: 17%;
+    }
+
+    th:not(:last-child) {
+        cursor: ns-resize;
+    }
 }

@@ -33,6 +33,11 @@ class ResultPage extends Component {
         getQuestionsByUserId: noop,
     };
 
+    constructor (props) {
+        super(props);
+        this.state = { questions: [], asc: false };
+    }
+
     componentDidMount () {
         const { location, getQuestions } = this.props;
         if (location) {
@@ -40,6 +45,12 @@ class ResultPage extends Component {
             if (query) {
                 getQuestions(query);
             }
+        }
+    }
+
+    componentWillReceiveProps (nextProps) {
+        if (this.props.questions !== nextProps.questions) {
+            this.setState({ questions: [...nextProps.questions] });
         }
     }
 
@@ -66,10 +77,46 @@ class ResultPage extends Component {
         }
     };
 
+    onSort = (e) => {
+        const { dataset: { header } = {} } = e.target;
+        const copy = this.state.questions.slice();
+        const { asc } = this.state;
+        const sorted = copy.sort((a, b) => {
+            let aProp;
+            let bProp;
+            switch (header) {
+                case 'author':
+                    aProp = a.owner.display_name;
+                    bProp = b.owner.display_name;
+                    break;
+                case 'title':
+                    aProp = a.title;
+                    bProp = b.title;
+                    break;
+                case 'answers':
+                    aProp = a.answer_count;
+                    bProp = b.answer_count;
+                    break;
+                default:
+                    return 0;
+            }
+
+            if (header === 'answers') {
+                return asc ? bProp - aProp : aProp - bProp;
+            }
+
+            return asc ?
+                bProp.localeCompare(aProp) :
+                aProp.localeCompare(bProp);
+        });
+
+        this.setState({ questions: sorted, asc: !asc });
+    };
+
     renderContent = () => {
         const {
             location, questionsLoadingError, author, tag,
-            questionsLoading, questions, popUpQuestions
+            questionsLoading, popUpQuestions
         } = this.props;
 
         const { query } = qs.parse(location.search);
@@ -94,9 +141,10 @@ class ResultPage extends Component {
                         className={cx(s.questionsContainer)}
                     >
                         <QuestionsTable
+                            onSort={this.onSort}
                             onTagClick={this.onTagClick}
                             onAuthorClick={this.onAuthorClick}
-                            questions={questions}
+                            questions={this.state.questions}
                         />
                     </div>
 
