@@ -14,6 +14,11 @@ import history from './history';
 
 const store = createStore(
     rootReducer,
+    (
+        NODE_ENV === 'development'
+        && window.__REDUX_DEVTOOLS_EXTENSION__
+        && window.__REDUX_DEVTOOLS_EXTENSION__()
+    ),
     applyMiddleware(thunkMiddleware, createLogger())
 );
 

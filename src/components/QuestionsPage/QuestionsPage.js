@@ -14,7 +14,7 @@ class ResultPage extends Component {
         location: PropTypes.shape({ search: PropTypes.string }),
         questionsLoadingError: PropTypes.string,
         questionsLoading: PropTypes.bool,
-        resetQuestions: PropTypes.func,
+        resetL: PropTypes.func,
         getQuestions: PropTypes.func,
 
     };
@@ -23,7 +23,7 @@ class ResultPage extends Component {
         questions: [],
         questionsLoadingError: undefined,
         questionsLoading: undefined,
-        resetQuestions: noop,
+        resetL: noop,
         location: undefined,
     };
 
@@ -38,7 +38,7 @@ class ResultPage extends Component {
     }
 
     componentWillUnmount () {
-        this.props.resetQuestions();
+        this.props.resetL();
     }
 
     renderTable = () => {
@@ -51,6 +51,7 @@ class ResultPage extends Component {
             return (
                 <Question
                     key={q.question_id}
+                    questionId={q.question_id}
                     author={author}
                     title={title}
                     answers={answers}

@@ -13,7 +13,7 @@ class App extends Component {
                 <Redirect from="/" exact to="/search" />
                 <Route exact path="/search" component={SearchPage} />
                 <Route exact path="/questions" component={QuestionsPage} />
-                <Route exact path="/questions:id" component={QuestionDetails} />
+                <Route exact path="/questions/:id" component={QuestionDetails} />
                 <Route component={FourOFourPage} />
             </Switch>
         );

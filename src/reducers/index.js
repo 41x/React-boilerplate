@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
-import results from './results.reducer';
+import questionL from './questionL.reducer';
+import questionE from './questionE.reducer';
 
 export default combineReducers({
-    results,
+    questionL,
+    questionE,
 });

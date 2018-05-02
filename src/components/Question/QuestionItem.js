@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import s from './QuestionItem.css';
 import Author from '../Author/Author';
+
 
 class Question extends Component {
     static propTypes = {
         author: PropTypes.string,
         img: PropTypes.string,
         title: PropTypes.string,
+        questionId: PropTypes.number,
         answers: PropTypes.number,
         tags: PropTypes.arrayOf(PropTypes.string),
         onTagClick: PropTypes.func,
@@ -20,6 +23,7 @@ class Question extends Component {
         answers: undefined,
         img: undefined,
         tags: undefined,
+        questionId: undefined,
         onTagClick: () => {
         },
     };
@@ -38,12 +42,12 @@ class Question extends Component {
     };
 
     render () {
-        const { author, title, answers, img } = this.props;
+        const { author, title, answers, img, questionId } = this.props;
         return (
             <tr className={s.root}>
                 <td><Author author={author} imgUrl={img} /></td>
-                <td>{title}</td>
-                <td>{answers}</td>
+                <td><Link to={`/questions/${questionId}`}>{title}</Link></td>
+                <td><Link to={`/questions/${questionId}`}>{answers}</Link></td>
                 <td>{this.renderTags()}</td>
             </tr>
         );
