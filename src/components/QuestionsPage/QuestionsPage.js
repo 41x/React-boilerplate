@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import qs from 'query-string';
+import Transition from 'react-transition-group/Transition';
 import cx from 'classnames';
 import { noop } from '../../utils';
 import Preloader from '../Preloader/Preloader';
@@ -113,11 +114,24 @@ class ResultPage extends Component {
         this.setState({ questions: sorted, asc: !asc });
     };
 
+    resetPopUp = () => {
+        this.props.resetPL();
+        this.lastAuthor = '';
+        this.lastTag = '';
+    };
+
     renderContent = () => {
         const {
             location, questionsLoadingError, author, tag,
             questionsLoading, popUpQuestions
         } = this.props;
+
+        const transitionStyles = {
+            entering: { bottom: -500 },
+            entered: { bottom: 100 },
+            exiting: { bottom: 100 },
+            exited: { bottom: -500 }
+        };
 
         const { query } = qs.parse(location.search);
         let popUpHeader;
@@ -148,34 +162,41 @@ class ResultPage extends Component {
                         />
                     </div>
 
-                    {!!popUpQuestions.length &&
-                    <div className={cx(s.popUpContainer, 'container')}>
-                        <div className={cx(s.card, 'card')}>
-                            <div className={cx(s.header, 'card-header')}>
-                                {popUpHeader}
-                                <svg
-                                    width="18"
-                                    height="18"
-                                    viewBox="0 0 18 18"
-                                    onClick={this.props.resetPL}
+                    <Transition in={!!(popUpQuestions && popUpQuestions.length)} timeout={0}>
+                        {(state) => {
+                            return (
+                                <div
+                                    style={{ ...transitionStyles[state] }}
+                                    className={cx(s.popUpContainer, 'container')}
                                 >
-                                    <path
-                                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
-                                </svg>
-                            </div>
-                            <div
-                                style={{ height: blockHeight }}
-                                className={cx(s.cardBody, 'card-body')}
-                            >
-                                <QuestionsTable
-                                    onTagClick={this.onTagClick}
-                                    onAuthorClick={this.onAuthorClick}
-                                    questions={popUpQuestions}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    }
+                                    <div className={cx(s.card, 'card')}>
+                                        <div className={cx(s.header, 'card-header')}>
+                                            {popUpHeader}
+                                            <svg
+                                                width="18"
+                                                height="18"
+                                                viewBox="0 0 18 18"
+                                                onClick={this.resetPopUp}
+                                            >
+                                                <path
+                                                    d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
+                                            </svg>
+                                        </div>
+                                        <div
+                                            style={{ height: blockHeight }}
+                                            className={cx(s.cardBody, 'card-body')}
+                                        >
+                                            <QuestionsTable
+                                                onTagClick={this.onTagClick}
+                                                onAuthorClick={this.onAuthorClick}
+                                                questions={popUpQuestions}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        }}
+                    </Transition>
                 </Fragment>
             );
         }

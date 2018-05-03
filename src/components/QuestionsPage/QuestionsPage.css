@@ -1,7 +1,7 @@
 
 .popUpContainer {
     position: fixed;
-    top: 50%;
+    transition: bottom 300ms ease-in-out;
 }
 
 .root {
