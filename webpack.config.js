@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const NodemonPlugin = require('nodemon-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -10,7 +11,6 @@ console.log(`NODE_ENV = ${NODE_ENV}`);
 
 const cleanOptions = {
     root: __dirname,
-    exclude: ['index.html'],
     verbose: true,
 };
 
@@ -68,7 +68,11 @@ const browserConfig = {
             __isBrowser__: 'true',
             NODE_ENV: JSON.stringify(NODE_ENV),
         }),
-        new CleanWebpackPlugin(['public/*.js'], cleanOptions),
+        new CleanWebpackPlugin(['public'], cleanOptions),
+        new HtmlWebpackPlugin({
+            template: `${__dirname}/src/index.html`,
+            inject: 'body'
+        }),
     ],
 
 };
