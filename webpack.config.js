@@ -23,10 +23,12 @@ const config = {
 const browserConfig = {
     ...config,
     context: path.resolve(__dirname, 'src', 'client'),
-    entry: ['babel-polyfill', './client.js'],
+    entry: ['webpack-hot-middleware/client', 'babel-polyfill', './client.js'],
     output: {
         path: path.resolve(__dirname, 'public'),
         filename: 'bundle.js',
+        hotUpdateChunkFilename: 'hot/hot-update.js',
+        hotUpdateMainFilename: 'hot/hot-update.json',
         publicPath: '/',
     },
     module: {
@@ -73,8 +75,8 @@ const browserConfig = {
             template: `${__dirname}/src/index.html`,
             inject: 'body'
         }),
+        new webpack.HotModuleReplacementPlugin(),
     ],
-
 };
 
 const serverConfig = {
