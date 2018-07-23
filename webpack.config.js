@@ -6,6 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -91,6 +92,7 @@ const browserConfig = {
         ...devModeOnly(new webpack.HotModuleReplacementPlugin()),
         // ...devModeOnly(new OpenBrowserPlugin({ url: 'http://localhost:3000' })),
 
+        ...devModeOnly(new DuplicatePackageCheckerPlugin()),
         // uncomment when needed
         // new BundleAnalyzerPlugin(),
     ],
