@@ -48,15 +48,15 @@ class QuestionsTable extends Component {
             <table className={cx(s.root, 'table table-striped')}>
                 <thead>
                 <tr>
-                    <th data-header="author" onClick={this.props.onSort}>Автор</th>
-                    <th data-header="title" onClick={this.props.onSort}>Тема</th>
+                    <th data-header="author" onClick={this.props.onSort}>Author</th>
+                    <th data-header="title" onClick={this.props.onSort}>Topic</th>
                     <th
                         data-header="answers"
                         onClick={this.props.onSort}
                         className={s.answers}
-                    >Кол-во ответов
+                    >Replies
                     </th>
-                    <th>Теги</th>
+                    <th>Tags</th>
                 </tr>
                 </thead>
                 <tbody>{trs}</tbody>

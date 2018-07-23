@@ -4,9 +4,11 @@ const nodeExternals = require('webpack-node-externals');
 const NodemonPlugin = require('nodemon-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
+const isDevMode = NODE_ENV === 'development';
 console.log(`NODE_ENV = ${NODE_ENV}`);
 
 const cleanOptions = {
@@ -16,14 +18,23 @@ const cleanOptions = {
 
 const config = {
     mode: NODE_ENV,
-    watch: NODE_ENV === 'development',
+    watch: isDevMode,
     devtool: 'source-map',
+};
+
+const devModeOnly = (item) => {
+    return isDevMode ? [item] : [];
 };
 
 const browserConfig = {
     ...config,
     context: path.resolve(__dirname, 'src', 'client'),
-    entry: ['webpack-hot-middleware/client', 'babel-polyfill', './client.js'],
+    entry: [
+        ...devModeOnly('react-hot-loader/patch'),
+        ...devModeOnly('webpack-hot-middleware/client'),
+        'babel-polyfill',
+        './client.js',
+    ],
     output: {
         path: path.resolve(__dirname, 'public'),
         filename: 'bundle.js',
@@ -69,13 +80,15 @@ const browserConfig = {
         new webpack.DefinePlugin({
             __isBrowser__: 'true',
             NODE_ENV: JSON.stringify(NODE_ENV),
+            'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
         }),
         new CleanWebpackPlugin(['public'], cleanOptions),
         new HtmlWebpackPlugin({
             template: `${__dirname}/src/index.html`,
             inject: 'body'
         }),
-        new webpack.HotModuleReplacementPlugin(),
+        ...devModeOnly(new webpack.HotModuleReplacementPlugin()),
+        // ...devModeOnly(new OpenBrowserPlugin({ url: 'http://localhost:3000' })),
     ],
 };
 
@@ -104,6 +117,7 @@ const serverConfig = {
         new webpack.DefinePlugin({
             __isBrowser__: 'false',
             NODE_ENV: JSON.stringify(NODE_ENV),
+            'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
         }),
         new CleanWebpackPlugin(['server.js'], cleanOptions),
 

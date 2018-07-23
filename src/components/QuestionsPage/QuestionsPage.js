@@ -136,9 +136,9 @@ class ResultPage extends Component {
         const { query } = qs.parse(location.search);
         let popUpHeader;
         if (author) {
-            popUpHeader = `Список популярных вопросов пользователя: ${author}`;
+            popUpHeader = `Popular queries of user: ${author}`;
         } else if (tag) {
-            popUpHeader = `Список вопросов по тегу: '${tag}'`;
+            popUpHeader = `Query list by the tag: '${tag}'`;
         }
 
         const blockHeight = window.innerHeight * 0.4;
@@ -150,7 +150,7 @@ class ResultPage extends Component {
         } else {
             view = (
                 <Fragment>
-                    <h6>{`Результаты поиска${query ? ` по запросу: '${query}'` : ''}`}</h6>
+                    <h6>{`Results${query ? ` for the query: '${query}'` : ''}`}</h6>
                     <div
                         className={cx(s.questionsContainer)}
                     >

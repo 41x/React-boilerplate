@@ -31,14 +31,14 @@ class SearchPage extends Component {
                         onSubmit={this.onSubmit}
                         className={cx(s.form, 'form-group jumbotron col-6')}
                     >
-                        <h6 className="col-12">Поиск по StackOverflow</h6>
+                        <h6 className="col-12">StackOverflow</h6>
 
                         <input
                             className={cx('col-12', 'form-control')}
                             type="text"
                             value={input}
                             onChange={this.inputChange}
-                            placeholder="Введите запрос..."
+                            placeholder="your query..."
                             tabIndex={1}
                         />
                         <div className={s.buttonContainer}>
@@ -46,7 +46,7 @@ class SearchPage extends Component {
                                 tabIndex={2}
                                 className="btn btn-primary col-4"
                                 disabled={!input}
-                            >Поиск
+                            >search
                             </button>
                         </div>
                     </form>
