@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack",
     "build": "SET \"NODE_ENV=production\" && webpack && node server.js",
+    "analyze": "SET \"ANALYZE=true\" && yarn run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -53,13 +54,10 @@
   },
   "babel": {
     "presets": [
-      "env",
-      "react"
+      "env", "react"
     ],
     "plugins": [
-      "transform-class-properties",
-      "transform-object-rest-spread",
-      "react-hot-loader/babel"
+      "transform-class-properties", "transform-object-rest-spread", "react-hot-loader/babel"
     ]
   },
   "dependencies": {
@@ -96,15 +94,12 @@
       "react/jsx-filename-extension": "off",
       "comma-dangle": "off",
       "indent": [
-        "error",
-        4,
-        {
+        "error", 4, {
           "SwitchCase": 1
         }
       ],
       "react/jsx-indent": [
-        "error",
-        4
+        "error", 4
       ],
       "react/jsx-indent-props": "off",
       "jsx-a11y/no-static-element-interactions": "off",
@@ -112,8 +107,7 @@
       "arrow-body-style": "off",
       "import/prefer-default-export": "off",
       "space-before-function-paren": [
-        "error",
-        "always"
+        "error", "always"
       ],
       "react/prefer-stateless-function": "off",
       "react/sort-comp": "off",

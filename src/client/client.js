@@ -13,6 +13,12 @@ import rootReducer from '../reducers';
 import history from './history';
 
 
+const middlewareArguments = [thunkMiddleware];
+if (NODE_ENV === 'development') {
+    // log actions in dev mode
+    middlewareArguments.push(createLogger({ collapsed: true }));
+}
+
 const store = createStore(
     rootReducer,
     (
@@ -20,7 +26,7 @@ const store = createStore(
         && window.__REDUX_DEVTOOLS_EXTENSION__
         && window.__REDUX_DEVTOOLS_EXTENSION__()
     ),
-    applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
+    applyMiddleware(...middlewareArguments)
 );
 
 const renderApp = (Application) => {
@@ -38,7 +44,7 @@ const renderApp = (Application) => {
 
 renderApp(App);
 
-// This is needed for Hot Module Replacement
+// This is for react Hot Module Replacement
 if (module.hot) {
     module.hot.accept('../components/App', () => {
         const NextApp = require('../components/App').default;

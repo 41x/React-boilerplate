@@ -5,13 +5,14 @@ const NodemonPlugin = require('nodemon-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 
 
-const NODE_ENV = process.env.NODE_ENV || 'development';
+const { env: { NODE_ENV = 'development', ANALYZE = false } = {} } = process;
 const isDevMode = NODE_ENV === 'development';
 console.log(`NODE_ENV = ${NODE_ENV}`);
+console.log(`ANALYZE = ${ANALYZE}`);
 
 const cleanOptions = {
     root: __dirname,
@@ -91,10 +92,8 @@ const browserConfig = {
         }),
         ...devModeOnly(new webpack.HotModuleReplacementPlugin()),
         // ...devModeOnly(new OpenBrowserPlugin({ url: 'http://localhost:3000' })),
-
         ...devModeOnly(new DuplicatePackageCheckerPlugin()),
-        // uncomment when needed
-        // new BundleAnalyzerPlugin(),
+        ...ANALYZE ? [new BundleAnalyzerPlugin({ analyzerPort: 7777 })] : [],
     ],
 };
 
