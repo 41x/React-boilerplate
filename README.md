@@ -1,3 +1,7 @@
+This is react-redux boilerplate.
+
+to start:
+
 1. Install Node.js.
 2. Install yarn.
 2. In terminal run `git clone https://github.com/41x/test.git`.
